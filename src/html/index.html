@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Upload to NAS</title>
+</head>
+
+<body>
+     <h1>Enviar arquivo</h1>
+     <form>
+          <input type="file" id="file" name="file" />
+          <button id="send">Enviar</button>
+     </form>
+</body>
+<script>
+     const send = document.getElementById('send');
+     const file = document.getElementById('file');
+
+     send.addEventListener('click', (e) => {
+          e.preventDefault();
+          const formData = new FormData();
+          formData.append('file', file.files[0]);
+          fetch('http://localhost:3000/upload', {
+               method: 'POST',
+               body: formData
+          })
+               .then(response => response.json())
+               .then(result => {
+                    console.log('Success:', result);
+               })
+               .catch(error => {
+                    console.error('Error:', error);
+               });
+     });
+</script>
+
+</html>
